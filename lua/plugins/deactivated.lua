@@ -1,0 +1,128 @@
+if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- list of currently deactivated plugins
+--
+return {
+  --
+  -- omarchy color scheme switcher on startup, no hotreload
+  -- {
+  --   "AstroNvim/astroui",
+  --   opts = function(_, opts)
+  --     local theme_file = vim.fn.expand "~/.config/omarchy/current/theme/neovim.lua"
+  --     local ok, theme_spec = pcall(dofile, theme_file)
+  --
+  --     if not ok or type(theme_spec) ~= "table" then return end
+  --
+  --     for _, spec in ipairs(theme_spec) do
+  --       if type(spec) == "table" and spec[1] == "LazyVim/LazyVim" and spec.opts and spec.opts.colorscheme then
+  --         local cs = spec.opts.colorscheme
+  --
+  --         -- 🔥 Force mocha if catppuccin
+  --         if cs == "catppuccin" then cs = "catppuccin-mocha" end
+  --
+  --         opts.colorscheme = cs
+  --         break
+  --       end
+  --     end
+  --   end,
+  -- },
+  --
+  --
+  -- "folke/sidekick.nvim",
+  -- opts = {
+  --   nes = { enabled = true },
+  --   cli = {
+  --     mux = {
+  --       backend = "tmux",
+  --       enabled = true,
+  --     },
+  --   },
+  -- },
+  --
+  --
+  -- {
+  --   "linux-cultist/venv-selector.nvim",
+  --   dependencies = {
+  --     "neovim/nvim-lspconfig",
+  --     "folke/snacks.nvim",
+  --   },
+  --   keys = { -- this is in the default opts
+  --     { "<Leader>v", "<cmd>VenvSelect<cr>" }, -- Open picker on keymap
+  --   },
+  --   opts = { -- this can be an empty lua table - just showing below for clarity.
+  --     picker = "snacks", -- <— SWITCH TO SNACKS HERE
+  --     search = {}, -- if you add your own searches, they go here.
+  --     options = {}, -- if you add plugin options, they go here.
+  --   },
+  -- },
+  --
+  -- {
+  --   "folke/edgy.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     animate = {
+  --       enabled = false,
+  --     },
+  --   },
+  -- },
+  --
+  -- {
+  --   "saghen/filler-begone.nvim",
+  --   dependencies = {
+  --     {
+  --       "AstroNvim/astrocore",
+  --       opts = {
+  --         options = {
+  --           g = {
+  --             filler_begone = false, -- global default
+  --           },
+  --         },
+  --         autocmds = {
+  --           filler_begone = {
+  --             {
+  --               event = "BufEnter",
+  --               pattern = "*",
+  --               callback = function(args)
+  --                 -- set buffer-local behavior for buftype=nofile buffers
+  --                 if vim.bo[args.buf].buftype == "nofile" then vim.b[args.buf].filler_begone = true end
+  --               end,
+  --             },
+  --           },
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
+  --
+  -- {
+  --   "jedrzejboczar/exrc.nvim",
+  --   dependencies = { "neovim/nvim-lspconfig" }, -- (optional)
+  --   config = true,
+  --   opts = {
+  --     exrc_name = ".nvim.lua", -- Name of exrc files to use
+  --     on_vim_enter = true, -- Load exrc from current directory on start
+  --     on_dir_changed = { -- Automatically load exrc files on DirChanged autocmd
+  --       enabled = true,
+  --       -- Wait until CursorHold and use vim.ui.select to confirm files to load, instead of loading unconditionally
+  --       use_ui_select = true,
+  --     },
+  --     trust_on_write = true, -- Automatically trust when saving exrc file
+  --     use_telescope = true, -- Use telescope instead of vim.ui.select for picking files (if available)
+  --     min_log_level = vim.log.levels.DEBUG, -- Disable notifications below this level (TRACE=most logs)
+  --     lsp = {
+  --       auto_setup = false, -- Automatically configure lspconfig to register on_new_config
+  --     },
+  --     commands = {
+  --       instant_edit_single = true, -- Do not use vim.ui.select if there is only 1 candidate for ExrcEdit* commands
+  --     },
+  --   },
+  -- },
+  --
+  -- {
+  --   "knubie/vim-kitty-navigator",
+  -- },
+  --
+  -- {
+  --   "mrjones2014/smart-splits.nvim",
+  --   lazy = false,
+  -- },
+}

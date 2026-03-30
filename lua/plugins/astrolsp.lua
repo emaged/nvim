@@ -1,4 +1,4 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
@@ -11,6 +11,11 @@ return {
   ---@type AstroLSPOpts
   opts = {
     -- Configuration table of features provided by AstroLSP
+    defaults = {
+      signature_help = {
+        focusable = true,
+      },
+    },
     features = {
       codelens = true, -- enable/disable codelens refresh on start
       inlay_hints = false, -- enable/disable inlay hints on start
@@ -44,7 +49,105 @@ return {
     -- customize language server configuration passed to `vim.lsp.config`
     -- client specific configuration can also go in `lsp/` in your configuration root (see `:h lsp-config`)
     config = {
-      -- ["*"] = { capabilities = {} }, -- modify default LSP client settings such as capabilities
+      ["*"] = {
+        capabilities = {
+          workspace = {
+            didChangeWatchedFiles = {
+              dynamicRegistration = true,
+            },
+          },
+        },
+      }, -- modify default LSP client settings such as capabilities
+
+      --  ──────────────────────────────────────────────────────────────
+      --  Lua
+      --  ──────────────────────────────────────────────────────────────
+      lua_ls = {
+        settings = {
+          Lua = {
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = "LuaJIT",
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = {
+                "vim",
+                "require",
+              },
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+                -- Depending on the usage, you might want to add additional paths here.
+                -- "${3rd}/luv/library"
+                -- "${3rd}/busted/library",
+              },
+              -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
+              -- library = vim.api.nvim_get_runtime_file("", true)
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+              enable = false,
+            },
+          },
+        },
+      },
+
+      --  ──────────────────────────────────────────────────────────────
+      --  Spellcheck
+      --  ──────────────────────────────────────────────────────────────
+      harper_ls = {
+        filetypes = {
+          "asciidoc",
+          "html",
+          "markdown",
+          "tex",
+        },
+        settings = {
+          ["harper-ls"] = {
+            codeActions = {
+              forceStable = true,
+            },
+            linters = {
+              spelled_numbers = true,
+              linking_verbs = true,
+              SpellCheck = false,
+            },
+          },
+        },
+      },
+
+      --  ──────────────────────────────────────────────────────────────
+      --  Web
+      --  ──────────────────────────────────────────────────────────────
+      emmet_language_server = {
+        filetypes = {
+          "css",
+          "eruby",
+          "html",
+          "htmldjango",
+          "javascript",
+          "javascriptreact",
+          "less",
+          "sass",
+          "scss",
+          "pug",
+          "typescriptreact",
+        },
+        init_options = {
+          includeLanguages = {
+            javascript = "javascriptreact", -- or "html" if you want HTML emmet in plain JS template strings
+          },
+        },
+      },
+
+      html = {
+        filetypes = { "html", "templ", "htmldjango", "jinja.html", "jinja" },
+      },
     },
     -- customize how language servers are attached
     handlers = {
@@ -53,6 +156,8 @@ return {
 
       -- the key is the server that is being setup with `vim.lsp.config`
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
+      emmet_ls = false,
+      jinja_lsp = false,
     },
     -- Configure buffer local auto commands to add when attaching a language server
     autocmds = {
@@ -80,10 +185,52 @@ return {
     mappings = {
       n = {
         -- a `cond` key can provided as the string of a server capability to be required to attach, or a function with `client` and `bufnr` parameters from the `on_attach` that returns a boolean
-        gD = {
-          function() vim.lsp.buf.declaration() end,
-          desc = "Declaration of current symbol",
-          cond = "textDocument/declaration",
+
+        -- gD = {
+        --   function() vim.lsp.buf.declaration() end,
+        --   desc = "Declaration of current symbol",
+        --   cond = "textDocument/declaration",
+        -- },
+
+        gd = {
+          function() require("snacks.picker").lsp_definitions() end,
+          -- function() vim.lsp.buf.definition() end,
+          desc = "LSP Definitions",
+          cond = function(client, bufnr)
+            local ft = vim.bo[bufnr].filetype
+            return not vim.tbl_contains({
+              "html",
+              "htmldjango",
+              "javascript",
+              "javascriptreact",
+              "typescript",
+              "typescriptreact",
+              "svelte",
+              "vue",
+              "astro",
+              "templ",
+            }, ft)
+          end,
+        },
+
+        K = {
+          function() vim.lsp.buf.hover() end,
+          desc = "Hover symbol details",
+          cond = function(client, bufnr)
+            local ft = vim.bo[bufnr].filetype
+            return not vim.tbl_contains({
+              "html",
+              "htmldjango",
+              "javascript",
+              "javascriptreact",
+              "typescript",
+              "typescriptreact",
+              "svelte",
+              "vue",
+              "astro",
+              "templ",
+            }, ft)
+          end,
         },
         ["<Leader>uY"] = {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,

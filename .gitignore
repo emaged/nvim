@@ -1,0 +1,8 @@
+# Neovim runtime state
+.cache/
+.state/
+.ruff_cache/
+.nvimlog
+nvim_verbose.log
+log
+.state/nvim/lsp.log
