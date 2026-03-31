@@ -28,7 +28,7 @@ vim.keymap.set("n", "<Leader>y", ":%y<CR>", {
 
 -- TODO: fix this keymap somehow
 -- search backwards with ,,
-vim.keymap.set({ "o", "v", "n" }, "<localleader>,", ",", { desc = "backwards search" })
+-- vim.keymap.set({ "o", "v", "n" }, "<localleader>,", ",", { desc = "backwards search" })
 
 -- =========================================================
 -- <localleader> deletes into black hole register
