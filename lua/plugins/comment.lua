@@ -3,18 +3,17 @@ return {
   {
     "JoosepAlviste/nvim-ts-context-commentstring",
     enabled = true,
-    -- lazy = true,
-    -- opts = {
-    --   enable_autocmd = false,
-    -- },
+    opts = {
+      enable_autocmd = false,
+    },
   },
   {
     "numToStr/Comment.nvim",
     enabled = true,
-    -- opts = function(_, opts)
-    --   local commentstring_avail, commentstring = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
-    --   if commentstring_avail then opts.pre_hook = commentstring.create_pre_hook() end
-    -- end,
+    opts = function(_, opts)
+      local commentstring_avail, commentstring = pcall(require, "ts_context_commentstring.integrations.comment_nvim")
+      if commentstring_avail then opts.pre_hook = commentstring.create_pre_hook() end
+    end,
   },
 
   -- {

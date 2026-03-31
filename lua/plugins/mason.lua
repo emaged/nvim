@@ -28,7 +28,7 @@ return {
         "jdtls",
         "json-lsp",
         "some-sass-language-server",
-        "stylelint-lsp",
+        "stylelint-language-server",
         "sqlls",
         -- "pyrefly",
         "rust-analyzer",

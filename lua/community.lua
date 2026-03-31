@@ -62,7 +62,7 @@ return {
   -- Utility
   { import = "astrocommunity.editing-support.nvim-treesitter-context" },
   { import = "astrocommunity.editing-support.yanky-nvim" },
-  -- { import = "astrocommunity.utility.live-preview" }, -- bugged on 0.12 prerelease
+  { import = "astrocommunity.utility.live-preview" }, -- bugged on 0.12 prerelease
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.markdown-and-latex.render-markdown-nvim" },
   { import = "astrocommunity.search.grug-far-nvim" },
