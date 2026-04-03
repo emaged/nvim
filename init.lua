@@ -23,8 +23,10 @@ if not pcall(require, "lazy") then
   vim.cmd.quit()
 end
 
+-- ignore deprecated warnings
 vim.deprecate = function() end
 
 require "lazy_setup"
 require "polish"
 require "keymaps"
+require "commands"

@@ -2,6 +2,9 @@
 -- Keymaps (run immediately)
 -- =========================
 
+-- Restart neovim
+vim.keymap.set({ "v", "n" }, "<localleader>R", "<cmd>restart<CR>", { desc = "Restart Neovim" })
+
 -- source current file
 vim.keymap.set("n", "<Leader><Leader>s", "<cmd>source %<cr>", { desc = "source current file" })
 

@@ -121,11 +121,13 @@ return {
         ["<Leader>V"] = { desc = "󱓞 Obsidian" },
         -- debugprint group
         ["g?"] = { desc = "󰍉 Debugprint" },
+        ["<localleader>p"] = { desc = "Put charwise" },
       },
       x = {
         -- groups
         ["<Leader>r"] = { desc = "󰜎 Run (SnipRun)" },
         ["<Leader>,"] = { desc = "󰗧 Multicursor" },
+        ["<localleader>p"] = { desc = "Put charwise" },
         ["g?"] = { desc = "󰍉 Debugprint" },
 
         -- grug-far keybinds

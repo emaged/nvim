@@ -20,11 +20,6 @@ return { -- == Examples of Adding Plugins ==
     enabled = false,
   },
 
-  {
-    "esmuellert/codediff.nvim",
-    cmd = "CodeDiff",
-  },
-
   { "Vimjas/vim-python-pep8-indent" },
 
   -- { "lepture/vim-jinja" },

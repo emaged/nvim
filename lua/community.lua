@@ -39,6 +39,9 @@ return {
 
   { import = "astrocommunity.file-explorer.yazi-nvim" },
 
+  -- Git
+  { import = "astrocommunity.git.codediff-nvim" },
+
   -- AI
   { import = "astrocommunity.ai.sidekick-nvim" },
   { import = "astrocommunity.ai.opencode-nvim" },
