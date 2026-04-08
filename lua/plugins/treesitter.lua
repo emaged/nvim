@@ -80,7 +80,7 @@ return {
         -- "llvm",
         -- "powershell",
         -- "ruby",
-        "norg", -- snacks.image
+        -- "norg", -- snacks.image, broken on 0.12
       },
       -- Automatically detect missing treesitter parser and install when editing file
       auto_install = true,
