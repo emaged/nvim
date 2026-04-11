@@ -7,3 +7,4 @@ nvim_verbose.log
 log
 .state/nvim/lsp.log
 nvim.log
+.codex
