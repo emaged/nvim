@@ -26,7 +26,7 @@ return {
       -- can be:
       --   - a boolean
       --   - a function (`fun(lang: string, bufnr: integer): boolean`)
-      indent = true,
+      indent = function(lang, bufnr) return lang ~= "python" end,
       -- List of treesitter parsers that should be installed automatically
       -- ("all" can be used to install all available parsers)
       ensure_installed = {
