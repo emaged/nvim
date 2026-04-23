@@ -2,6 +2,18 @@
 -- Keymaps (run immediately)
 -- =========================
 
+-- fix tab on empty line indenting
+vim.keymap.set("i", "<Tab>", function()
+  local _, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+
+  if vim.o.indentexpr ~= "" and col == 0 and line:match "^%s*$" then
+    return vim.api.nvim_replace_termcodes("<C-f>", true, false, true)
+  end
+
+  return "\t"
+end, { expr = true })
+
 -- Restart neovim
 vim.keymap.set({ "v", "n" }, "<localleader>R", "<cmd>restart<CR>", { desc = "Restart Neovim" })
 
