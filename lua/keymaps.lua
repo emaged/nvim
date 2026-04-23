@@ -41,10 +41,6 @@ vim.keymap.set("n", "<Leader>y", ":%y<CR>", {
   silent = true,
 })
 
--- TODO: fix this keymap somehow
--- search backwards with ,,
--- vim.keymap.set({ "o", "v", "n" }, "<localleader>,", ",", { desc = "backwards search" })
-
 -- =========================================================
 -- <localleader> deletes into black hole register
 -- =========================================================
@@ -55,19 +51,6 @@ vim.keymap.set({ "v", "n" }, "<localleader>c", '"_c', {
 vim.keymap.set({ "v", "n" }, "<localleader>C", '"_C', {
   silent = true,
 })
-
--- Delete s without yank in normal Mode
--- vim.keymap.set("n", "<localleader>s", '"_s', {
---   silent = true,
--- })
--- -- Delete s without yank in Visual Mode
--- vim.keymap.set("v", "<localleader>s", '"_c', {
---   silent = true,
--- })
--- -- Delete S without yank
--- vim.keymap.set({ "v", "n" }, "<localleader>S", '"_S', {
---   silent = true,
--- })
 
 -- Delete x without yank in normal Mode
 vim.keymap.set("n", "<localleader>x", '"_x', {
@@ -143,33 +126,10 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     if vim.bo.buftype == "" then
       vim.keymap.set("n", "<CR>", "o<Esc>", { buffer = true, silent = true })
-      vim.keymap.set("n", "<A-CR>", "O<Esc>j", { buffer = true, silent = true })
+      vim.keymap.set("n", "<S-CR>", "O<Esc>j", { buffer = true, silent = true })
     end
   end,
 })
-
--- =========================================================
--- Undo Keymaps
--- =========================================================
--- main
--- vim.keymap.set("i", ",", ",<C-g>u")
--- vim.keymap.set("i", ".", ".<C-g>u")
--- vim.keymap.set("i", "!", "!<C-g>u")
--- vim.keymap.set("i", "?", "?<C-g>u")
--- vim.keymap.set("i", ";", ";<C-g>u")
--- vim.keymap.set("i", ":", ":<C-g>u")
--- vim.keymap.set("i", " ", " <C-g>u")
--- vim.keymap.set("i", "<cr>", "<cr><C-g>u")
--- vim.keymap.set("i", "<C-u>", "<C-u><C-g>u")
--- vim.keymap.set("i", "<C-w>", "<C-w><C-g>u")
--- vim.keymap.
---
--- -- optional
--- vim.keymap.set("i", "[", "[<C-g>u")
--- vim.keymap.set("i", "{", "{<C-g>u")
--- vim.keymap.set("i", "=", "=<C-g>u")
--- vim.keymap.set("i", "/", "/<C-g>u")
--- vim.keymap.set("i", "\\", "\\<C-g>u")
 
 -- ctrl + z for insert mode undo
 vim.keymap.set("i", "<C-z>", "<C-o>u")
@@ -196,3 +156,44 @@ vim.keymap.set("n", "<M-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 -- vim.keymap.set("n", "<M-o>", "<cmd>silent !tmux neww tmux-sessionizer -s 1<CR>")
 -- vim.keymap.set("n", "<M-p>", "<cmd>silent !tmux neww tmux-sessionizer -s 2<CR>")
 -- vim.keymap.set("n", "<M-r>", "<cmd>silent !tmux neww tmux-sessionizer -s 3<CR>")
+
+-- old or work in progress keymaps
+-- TODO: fix this keymap somehow
+-- search backwards with ,,
+-- vim.keymap.set({ "o", "v", "n" }, "<localleader>,", ",", { desc = "backwards search" })
+
+-- =========================================================
+-- Undo Keymaps
+-- =========================================================
+-- main
+-- vim.keymap.set("i", ",", ",<C-g>u")
+-- vim.keymap.set("i", ".", ".<C-g>u")
+-- vim.keymap.set("i", "!", "!<C-g>u")
+-- vim.keymap.set("i", "?", "?<C-g>u")
+-- vim.keymap.set("i", ";", ";<C-g>u")
+-- vim.keymap.set("i", ":", ":<C-g>u")
+-- vim.keymap.set("i", " ", " <C-g>u")
+-- vim.keymap.set("i", "<cr>", "<cr><C-g>u")
+-- vim.keymap.set("i", "<C-u>", "<C-u><C-g>u")
+-- vim.keymap.set("i", "<C-w>", "<C-w><C-g>u")
+-- vim.keymap.
+--
+-- -- optional
+-- vim.keymap.set("i", "[", "[<C-g>u")
+-- vim.keymap.set("i", "{", "{<C-g>u")
+-- vim.keymap.set("i", "=", "=<C-g>u")
+-- vim.keymap.set("i", "/", "/<C-g>u")
+-- vim.keymap.set("i", "\\", "\\<C-g>u")
+
+-- Delete s without yank in normal Mode
+-- vim.keymap.set("n", "<localleader>s", '"_s', {
+--   silent = true,
+-- })
+-- -- Delete s without yank in Visual Mode
+-- vim.keymap.set("v", "<localleader>s", '"_c', {
+--   silent = true,
+-- })
+-- -- Delete S without yank
+-- vim.keymap.set({ "v", "n" }, "<localleader>S", '"_S', {
+--   silent = true,
+-- })
