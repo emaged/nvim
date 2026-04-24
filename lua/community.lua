@@ -21,12 +21,16 @@ return {
   -- Full community plugin pack (import after specific recipes)
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.cmake" },
+  { import = "astrocommunity.pack.bash" },
   { import = "astrocommunity.pack.cpp" },
 
+  -- java
   { import = "astrocommunity.pack.java" },
+  { import = "astrocommunity.pack.spring-boot" },
 
-  { import = "astrocommunity.pack.html-css" },
-  -- { import = "astrocommunity.pack.typescript" },
+  { import = "astrocommunity.pack.html-css" }, -- includes json pack
+  { import = "astrocommunity.pack.tailwindcss" },
+  -- { import = "astrocommunity.pack.typescript-all-in-one" },
 
   { import = "astrocommunity.pack.python" },
   { import = "astrocommunity.pack.python.basedpyright" },
@@ -37,6 +41,11 @@ return {
   { import = "astrocommunity.pack.markdown" },
   { import = "astrocommunity.pack.toml" },
 
+  -- Tools
+  { import = "astrocommunity.pack.full-dadbod" },
+  { import = "astrocommunity.pack.docker" },
+
+  -- File explorer
   { import = "astrocommunity.file-explorer.yazi-nvim" },
 
   -- Git
@@ -45,17 +54,11 @@ return {
   -- AI
   { import = "astrocommunity.ai.sidekick-nvim" },
   { import = "astrocommunity.ai.opencode-nvim" },
-
-  -- completion
   -- { import = "astrocommunity.completion.copilot-lua-cmp" },
 
   -- Movement
   { import = "astrocommunity.motion.mini-surround" },
   { import = "astrocommunity.motion.marks-nvim" },
-
-  -- Tools
-  { import = "astrocommunity.pack.full-dadbod" },
-  { import = "astrocommunity.pack.docker" },
 
   -- Linting && Formatting
   { import = "astrocommunity.editing-support.conform-nvim" },
@@ -65,7 +68,7 @@ return {
   -- Utility
   { import = "astrocommunity.editing-support.nvim-treesitter-context" },
   { import = "astrocommunity.editing-support.yanky-nvim" },
-  { import = "astrocommunity.utility.live-preview" }, -- bugged on 0.12 prerelease
+  { import = "astrocommunity.utility.live-preview" },
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.markdown-and-latex.render-markdown-nvim" },
   { import = "astrocommunity.search.grug-far-nvim" },

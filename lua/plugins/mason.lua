@@ -13,6 +13,7 @@ return {
       require("astrocore").list_insert_unique(opts.ensure_installed, {
         -- install language servers
         "basedpyright",
+        "bash-language-server",
         "clangd",
         "django-template-lsp",
         "html-lsp",
@@ -44,6 +45,8 @@ return {
         "prettierd",
         "ruff",
         "selene",
+        "shfmt", -- bash formatter
+        "shellcheck", -- bash linter
         -- "stylelint", -- enabled as lsp
         "sql-formatter",
         "sqlfluff",
