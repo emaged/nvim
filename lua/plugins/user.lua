@@ -58,7 +58,7 @@ return { -- == Examples of Adding Plugins ==
 
   {
     "olrtg/nvim-emmet",
-    ft = { "html", "css", "scss", "sass", "javascript", "htmldjango" },
+    ft = { "html", "css", "scss", "sass", "javascript", "javascriptreact", "typescriptreact", "htmldjango" },
     config = function() vim.keymap.set({ "n", "v" }, "<A-S-w>", require("nvim-emmet").wrap_with_abbreviation) end,
   },
 
