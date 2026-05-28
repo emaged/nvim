@@ -103,11 +103,6 @@ return {
       daily_notes = {
         folder = "daily",
       },
-      completion = {
-        nvim_cmp = astrocore.is_available "nvim-cmp",
-        blink = astrocore.is_available "blink",
-      },
-
       frontmatter = { -- ai version
         func = function(note)
           local out = { id = note.id, aliases = note.aliases, tags = note.tags }
@@ -139,11 +134,4 @@ return {
   --   },
   --   -- see below for full list of options 👇
   -- },
-  -- run before the plugin loads to block its LSP
-  init = function()
-    package.loaded["obsidian.lsp"] = nil
-    package.preload["obsidian.lsp"] = function()
-      return { start = function() return nil end }
-    end
-  end,
 }
