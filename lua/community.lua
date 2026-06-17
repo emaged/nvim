@@ -44,6 +44,7 @@ return {
   -- Tools
   { import = "astrocommunity.pack.full-dadbod" },
   { import = "astrocommunity.pack.docker" },
+  { import = "astrocommunity.programming-language-support.kulala-nvim" },
 
   -- File explorer
   { import = "astrocommunity.file-explorer.yazi-nvim" },
