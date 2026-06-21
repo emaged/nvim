@@ -54,6 +54,7 @@ return {
 
         -- install debuggers
         "debugpy",
+        "js-debug-adapter",
 
         -- install any other package
         "tree-sitter-cli",

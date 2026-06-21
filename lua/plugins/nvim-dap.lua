@@ -43,6 +43,44 @@ return {
     },
     opts = function(_, _)
       local dap = require "dap"
+
+      -----------------------
+      -- JavaScript / Node
+      -----------------------
+      local js_debug_path = vim.fn.stdpath "data" .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js"
+
+      dap.adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = { js_debug_path, "${port}" },
+        },
+      }
+
+      dap.configurations.javascript = {
+        {
+          type = "pwa-node",
+          request = "launch",
+          name = "Launch current file",
+          program = "${file}",
+          cwd = "${workspaceFolder}",
+          console = "integratedTerminal",
+        },
+        {
+          type = "pwa-node",
+          request = "attach",
+          name = "Attach to Node process",
+          processId = require("dap.utils").pick_process,
+          cwd = "${workspaceFolder}",
+        },
+      }
+
+      dap.configurations.typescript = dap.configurations.javascript
+      dap.configurations.javascriptreact = dap.configurations.javascript
+      dap.configurations.typescriptreact = dap.configurations.javascript
+
       -----------------------
       -- PYTHON
       -----------------------
