@@ -9,6 +9,9 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     -- overrides `require("mason-tool-installer").setup(...)`
     opts = function(_, opts)
+      opts.start_delay = 3000
+      opts.debounce_hours = 5
+
       -- Make sure to use the names found in `:Mason`
       require("astrocore").list_insert_unique(opts.ensure_installed, {
         -- install language servers
