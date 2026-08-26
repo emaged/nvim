@@ -9,9 +9,7 @@ return {
         local new = '(vim.trim(out):find(" on$") or vim.trim(out):find(" always$"))'
         local first, last = source:find(old, 1, true)
 
-        if first then
-          source = source:sub(1, first - 1) .. new .. source:sub(last + 1)
-        end
+        if first then source = source:sub(1, first - 1) .. new .. source:sub(last + 1) end
 
         return assert(load(source, "@" .. path))()
       end
@@ -24,6 +22,7 @@ return {
               "__pycache__",
               ".venv",
               "venv",
+              "node_modules",
             },
           },
           --   explorer = {
