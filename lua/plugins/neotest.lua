@@ -25,24 +25,25 @@ return {
     "nvim-neotest/neotest-python",
     lazy = true,
     opts = {
-      dap = { justMyCode = false },
+      dap = {
+        justMyCode = false --[[ , django = true ]],
+      },
       args = {
         "--log-level",
         "DEBUG",
 
         -- coverage: requires python -m pip install pytest-cov
-        "--cov=.", -- or "--cov=myapp" for a single app
+        -- "--cov=.", -- or "--cov=myapp" for a single app
         -- optionally:
         -- "--cov-report=html:htmlcov",
       },
       runner = "pytest",
-      python = "python",
+      -- python = "python",
       pytest_discover_instances = true,
 
       is_test_file = function(file)
         return file:match "tests%.py$" or file:match "test_.*%.py$" or file:match ".*_test%.py$"
       end,
-      django = true,
     },
   },
 }

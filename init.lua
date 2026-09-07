@@ -24,7 +24,7 @@ if not pcall(require, "lazy") then
 end
 
 -- ignore deprecated warnings
-vim.deprecate = function() end
+-- vim.deprecate = function() end
 
 require "lazy_setup"
 require "polish"

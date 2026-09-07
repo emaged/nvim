@@ -63,10 +63,6 @@ return {
       -- Align
       set("n", "<Leader>m=", mc.alignCursors, { desc = "Align cursor columns" })
 
-      -- Sequences
-      set({ "n", "x" }, "g<C-a>", mc.sequenceIncrement)
-      set({ "n", "x" }, "g<C-x>", mc.sequenceDecrement)
-
       -- Rotate the text contained in each visual selection between cursors.
       set("x", "<leader>mc", function() mc.transposeCursors(1) end, { desc = "Cycle forwards" })
       set("x", "<leader>mC", function() mc.transposeCursors(-1) end, { desc = "Cycle backwards" })
@@ -85,6 +81,10 @@ return {
 
         -- Delete the main cursor.
         layerSet({ "n", "x" }, "<Leader>mx", mc.deleteCursor, { desc = "delete main cursor" })
+
+        -- Sequences
+        layerSet({ "n", "x" }, "g<C-a>", mc.sequenceIncrement)
+        layerSet({ "n", "x" }, "g<C-x>", mc.sequenceDecrement)
 
         -- Enable and clear cursors using escape.
         layerSet("n", "<esc>", function()

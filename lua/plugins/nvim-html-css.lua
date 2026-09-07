@@ -20,6 +20,19 @@ return {
       "astro",
     },
     dependencies = { "saghen/blink.cmp", "nvim-treesitter/nvim-treesitter" }, -- Use this if you're using blink.cmp
+    -- Keep upstream's implementation, but require trust before loading project Lua.
+    config = function(plugin, opts)
+      local chunk = assert(loadfile(plugin.dir .. "/lua/html-css/init.lua"))
+      setfenv(chunk, setmetatable({
+        dofile = function(path)
+          local source = vim.secure.read(path)
+          if type(source) == "string" then return assert(loadstring(source, "@" .. path))() end
+        end,
+      }, { __index = _G }))
+      local html_css = chunk()
+      package.loaded["html-css"] = html_css
+      html_css.setup(opts)
+    end,
     opts = {
       enable_on = { -- Example file types
         "html",

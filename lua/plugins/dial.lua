@@ -241,22 +241,21 @@ return {
     require("dial.config").augends:register_group(groups)
 
     ----------------------------------------------------------------------
-    -- Filetype mapping (LazyVim behavior)
+    -- Select language-specific augends through Dial
     ----------------------------------------------------------------------
 
-    vim.g.dials_by_ft = {
-      css = "css",
-      scss = "css",
-      sass = "css",
-      vue = "typescript",
-      javascript = "typescript",
-      javascriptreact = "typescript",
-      typescript = "typescript",
-      typescriptreact = "typescript",
-      json = "json",
-      markdown = "markdown",
-      lua = "lua",
-      python = "python",
+    require("dial.config").augends:on_filetype {
+      css = groups.css,
+      scss = groups.css,
+      sass = groups.css,
+      vue = groups.typescript,
+      javascript = groups.typescript,
+      javascriptreact = groups.typescript,
+      typescript = groups.typescript,
+      typescriptreact = groups.typescript,
+      markdown = groups.markdown,
+      lua = groups.lua,
+      python = groups.python,
     }
   end,
 }

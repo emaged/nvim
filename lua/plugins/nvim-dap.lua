@@ -117,11 +117,15 @@ return {
         type = "codelldb",
         request = "attach",
         cwd = "${workspaceFolder}",
-        connect = function()
-          local host = vim.fn.input "gdbserver host [localhost]: "
+        processCreateCommands = function()
+          local host = vim.trim(vim.fn.input "gdbserver host [localhost]: ")
           if host == "" then host = "localhost" end
-          local port = vim.fn.input "gdbserver port: "
-          return { host = host, port = tonumber(port) }
+          local port = tonumber(vim.fn.input "gdbserver port: ")
+          if not port or port % 1 ~= 0 or port < 1 or port > 65535 then
+            vim.notify("gdbserver port must be an integer between 1 and 65535", vim.log.levels.ERROR)
+            return dap.ABORT
+          end
+          return { ("gdb-remote %q"):format(host .. ":" .. port) }
         end,
         program = function() return vim.fn.input("Path to local binary: ", vim.fn.getcwd() .. "/tests", "file") end,
       })

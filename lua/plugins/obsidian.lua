@@ -10,7 +10,8 @@ return {
   --   "BufReadPre path/to/my-vault/*.md",
   --   "BufNewFile path/to/my-vault/*.md",
   -- },
-  event = { "BufReadPre */Dropbox/Vault/*.md" },
+  cmd = "Obsidian",
+  event = { "BufReadPre */Dropbox/Vault/*.md", "BufNewFile */Dropbox/Vault/*.md" },
   dependencies = {
     "nvim-lua/plenary.nvim",
     {
@@ -51,19 +52,6 @@ return {
             ["<Leader>Vr"] = { "<Cmd>Obsidian rename<CR>", desc = "Rename Note" },
             ["<Leader>Vc"] = { "<Cmd>Obsidian toggle_checkbox<CR>", desc = "Toggle Checkbox" },
             ["<Leader>Vp"] = { "<Cmd>Obsidian paste_img<CR>", desc = "Paste Image" },
-
-            -- ========= SMART GF =========
-            ["gf"] = {
-              function()
-                if require("obsidian").util.cursor_on_markdown_link() then
-                  return "<Cmd>Obsidian follow_link<CR>"
-                else
-                  return "gf"
-                end
-              end,
-              expr = true,
-              desc = "Obsidian Follow Link",
-            },
           },
 
           v = {
@@ -90,13 +78,17 @@ return {
       open = {
         use_advanced_uri = true,
       },
-      finder = (astrocore.is_available "snacks.pick" and "snacks.pick")
-        or (astrocore.is_available "telescope.nvim" and "telescope.nvim")
-        or (astrocore.is_available "fzf-lua" and "fzf-lua")
-        or (astrocore.is_available "mini.pick" and "mini.pick"),
+      picker = { name = "snacks.picker" },
+      callbacks = {
+        enter_note = function()
+          vim.keymap.set("n", "gf", function()
+            return require("obsidian.api").cursor_link() and "<Cmd>Obsidian follow_link<CR>" or "gf"
+          end, { buffer = true, expr = true, desc = "Follow note link or file" })
+        end,
+      },
 
       templates = {
-        subdir = "templates",
+        folder = "templates",
         date_format = "%Y-%m-%d-%a",
         time_format = "%H:%M",
       },

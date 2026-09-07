@@ -2,13 +2,14 @@
 -- Keymaps (run immediately)
 -- =========================
 
--- fix tab on empty line indenting
+-- Reindent with Tab from any cursor position
 vim.keymap.set("i", "<Tab>", function()
-  local _, col = unpack(vim.api.nvim_win_get_cursor(0))
   local line = vim.api.nvim_get_current_line()
 
-  if vim.o.indentexpr ~= "" and col == 0 and line:match "^%s*$" then
-    return vim.api.nvim_replace_termcodes("<C-f>", true, false, true)
+  if vim.bo.indentexpr ~= "" then
+    if not vim.tbl_contains(vim.opt_local.indentkeys:get(), "!^F") then return "\t" end
+    if not line:match "^%s*$" then return "<C-f>" end
+    return "<C-f><C-r>=indent('.') == 0 ? nr2char(9) : ''<CR>"
   end
 
   return "\t"
@@ -27,9 +28,12 @@ vim.keymap.set("i", "<C-l>", "<space>=><space>")
 vim.keymap.set("n", "gre", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]], { desc = "native search and replace" })
 
 -- open current file with alt + b
-vim.keymap.set("n", "<A-b>", ":!xdg-open % &<CR><CR>", {
-  silent = true,
-})
+vim.keymap.set("n", "<A-b>", function()
+  local path = vim.api.nvim_buf_get_name(0)
+  if path == "" then return vim.notify("This buffer has no file to open", vim.log.levels.WARN) end
+  local _, err = vim.ui.open(path)
+  if err then vim.notify(err, vim.log.levels.ERROR) end
+end, { desc = "Open current file externally" })
 
 -- Select all with Leader + A
 vim.keymap.set("n", "<Leader>a", "ggVG", {
@@ -83,25 +87,13 @@ vim.keymap.set({ "v", "n" }, "<C-q>", "<C-v>", {
   desc = "Visual Block Mode",
 })
 
--- Visual mode: copy selection to system clipboard
-vim.keymap.set("i", "<C-v>", "<C-o>p", {
-  silent = true,
-  desc = "regular paste",
-})
-vim.keymap.set("n", "<C-v>", "p", {
-  silent = true,
-  desc = "regular paste",
-})
-vim.keymap.set("v", "<C-v>", "P", {
-  silent = true,
-  desc = "regular paste",
-})
+-- Use Yanky's put handling so pasted text can be cycled through history.
+vim.keymap.set("i", "<C-v>", "<C-o><Plug>(YankyPutAfter)", { silent = true, desc = "Paste" })
+vim.keymap.set("n", "<C-v>", "<Plug>(YankyPutAfter)", { silent = true, desc = "Paste" })
+vim.keymap.set("x", "<C-v>", "<Plug>(YankyPutBefore)", { silent = true, desc = "Paste over selection" })
 
--- Visual mode: copy selection to system clipboard
-vim.keymap.set({ "v", "n" }, "<C-c>", "y", {
-  silent = true,
-  desc = "Copy selection to clipboard",
-})
+vim.keymap.set("x", "<C-c>", "<Plug>(YankyYank)", { silent = true, desc = "Copy selection to clipboard" })
+vim.keymap.set("n", "<C-c>", "<Plug>(YankyYank)y", { silent = true, desc = "Copy line to clipboard" })
 
 -- =========================================================
 -- Universal <Esc> (dismiss everything, then send real <Esc>)
@@ -156,11 +148,6 @@ vim.keymap.set("n", "<M-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 -- vim.keymap.set("n", "<M-o>", "<cmd>silent !tmux neww tmux-sessionizer -s 1<CR>")
 -- vim.keymap.set("n", "<M-p>", "<cmd>silent !tmux neww tmux-sessionizer -s 2<CR>")
 -- vim.keymap.set("n", "<M-r>", "<cmd>silent !tmux neww tmux-sessionizer -s 3<CR>")
-
--- old or work in progress keymaps
--- TODO: fix this keymap somehow
--- search backwards with ,,
--- vim.keymap.set({ "o", "v", "n" }, "<localleader>,", ",", { desc = "backwards search" })
 
 -- =========================================================
 -- Undo Keymaps

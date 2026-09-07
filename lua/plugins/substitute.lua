@@ -50,12 +50,14 @@ return {
       { "gsxc", function() require("substitute.exchange").cancel() end, mode = "n", desc = "Substitute cancel" },
     },
 
-    opts = {
-      on_substitute = require("yanky.integration").substitute(),
-      highlight_substituted_text = {
-        enabled = true,
-        timer = 200,
-      },
-    },
+    opts = function()
+      return {
+        on_substitute = require("yanky.integration").substitute(),
+        highlight_substituted_text = {
+          enabled = true,
+          timer = 200,
+        },
+      }
+    end,
   },
 }
