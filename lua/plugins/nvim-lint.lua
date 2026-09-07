@@ -22,8 +22,8 @@ return {
               type = "file",
             })[1]
             if config then return "--config=" .. config end
-            -- fallback so we never return nil (duplicate display-style is fine)
-            return "--display-style=json"
+            -- Keep a valid argument when no project config exists.
+            return "--no-summary"
           end,
           "--display-style",
           "json",
