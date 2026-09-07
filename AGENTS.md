@@ -25,7 +25,8 @@
 
 - Follow `.stylua.toml` for formatting and `selene.toml` for lint conventions.
 - The README does not currently document an automated test command.
-  Propose focused checks and label unverified commands accordingly.
+  Derive focused checks from the configuration and identify them as inferred.
+- Report which checks ran and their results; identify checks not run separately.
 - Starting Neovim can bootstrap lazy.nvim and trigger plugin setup.
   Describe these side effects when proposing startup checks.
 - For interactive changes, explain what to check in Neovim and distinguish
