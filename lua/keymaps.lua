@@ -99,6 +99,10 @@ vim.keymap.set("n", "<C-c>", "<Plug>(YankyYank)y", { silent = true, desc = "Copy
 -- Universal <Esc> (dismiss everything, then send real <Esc>)
 -- =========================================================
 vim.keymap.set("n", "<Esc>", function()
+  -- Clear native multicursors in the current buffer
+  local mc_ns = vim.api.nvim_create_namespace "nvim.multicursor"
+  vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)
+
   -- Dismiss Noice if present
   pcall(vim.cmd, "NoiceDismiss")
 

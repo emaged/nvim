@@ -41,9 +41,9 @@ return {
       set("n", "<Leader>m*", mc.searchAllAddCursors, { desc = "Add cursors to all search matches" })
 
       -- Add and remove cursors with control + left click.
-      set("n", "<c-leftmouse>", mc.handleMouse)
-      set("n", "<c-leftdrag>", mc.handleMouseDrag)
-      set("n", "<c-leftrelease>", mc.handleMouseRelease)
+      -- set("n", "<c-leftmouse>", mc.handleMouse)
+      -- set("n", "<c-leftdrag>", mc.handleMouseDrag)
+      -- set("n", "<c-leftrelease>", mc.handleMouseRelease)
 
       -- Disable and enable cursors.
       set({ "n", "x" }, "<Leader>mt", mc.toggleCursor, { desc = "enable/disable cursor" })
@@ -80,7 +80,7 @@ return {
         layerSet({ "n", "x" }, "<right>", mc.nextCursor)
 
         -- Delete the main cursor.
-        layerSet({ "n", "x" }, "<Leader>mx", mc.deleteCursor, { desc = "delete main cursor" })
+        layerSet({ "n", "x" }, "<Leader>x", mc.deleteCursor, { desc = "delete main cursor" })
 
         -- Sequences
         layerSet({ "n", "x" }, "g<C-a>", mc.sequenceIncrement)
