@@ -16,9 +16,9 @@ return {
       set({ "n", "x" }, "<Leader><down>", function() mc.lineSkipCursor(1) end, { desc = "Skip cursor below" })
 
       -- Add or skip adding a new cursor by matching word/selection
-      set({ "n", "x" }, "<Leader>mm", function() mc.matchAddCursor(1) end, { desc = "Add cursor on match forward" })
+      set({ "n", "x" }, "<Leader>mn", function() mc.matchAddCursor(1) end, { desc = "Add cursor on match forward" })
       set({ "n", "x" }, "<Leader>ms", function() mc.matchSkipCursor(1) end, { desc = "Skip cursor on match forward" })
-      set({ "n", "x" }, "<Leader>mM", function() mc.matchAddCursor(-1) end, { desc = "Add cursor on match backward" })
+      set({ "n", "x" }, "<Leader>mN", function() mc.matchAddCursor(-1) end, { desc = "Add cursor on match backward" })
       set({ "n", "x" }, "<Leader>mS", function() mc.matchSkipCursor(-1) end, { desc = "Skip cursor on match backward" }) -- Advanced Actions
 
       -- Add a cursor for all matches of cursor word/selection in the document.
@@ -46,7 +46,7 @@ return {
       -- set("n", "<c-leftrelease>", mc.handleMouseRelease)
 
       -- Disable and enable cursors.
-      set({ "n", "x" }, "<Leader>mt", mc.toggleCursor, { desc = "enable/disable cursor" })
+      set({ "n", "x" }, "<Leader>mq", mc.toggleCursor, { desc = "enable/disable cursor" })
 
       -- Pressing `gaip` will add a cursor on each line of a paragraph.
       -- Can also be used to add cursor for each line of visual selection.
