@@ -1,7 +1,22 @@
 return {
   {
     "nvim-neotest/neotest",
+    dependencies = {
+      "thenbe/neotest-playwright",
+    },
     opts = function(_, opts)
+      opts.adapters = opts.adapters or {}
+      table.insert(
+        opts.adapters,
+        require("neotest-playwright").adapter {
+          options = {
+            extra_args = { "--project=chromium" },
+            persist_project_selection = false,
+            enable_dynamic_test_discovery = false,
+          },
+        }
+      )
+
       -- for new adapters not in astrocommunity
       -- opts.adapters = opts.adapters or {}
       -- table.insert(
@@ -18,6 +33,7 @@ return {
       -- 👇 THIS replaces require("neotest").setup(...)
       opts.consumers = opts.consumers or {}
       opts.consumers.overseer = require "neotest.consumers.overseer"
+      opts.consumers.playwright = require("neotest-playwright.consumers").consumers
     end,
   },
   -- override astrocommunity settings like this

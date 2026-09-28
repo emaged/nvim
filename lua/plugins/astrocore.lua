@@ -32,7 +32,7 @@ return {
       -- see `:h vim.filetype.add` for usage
       extension = {
         http = "http",
-        rest = "rest",
+        rest = "http",
       },
       filename = {
         -- [".foorc"] = "fooscript",
