@@ -10,6 +10,7 @@ return {
       ".git",
       "mvnw",
       "gradlew",
+      ".lift",
     })
     return opts
   end,
