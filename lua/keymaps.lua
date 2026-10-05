@@ -146,7 +146,14 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", {
 
 -- tmux sessionizer keymaps --
 -- ------------------------ --
-vim.keymap.set("n", "<M-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("n", "<M-f>", function()
+  if vim.env.TMUX then
+    vim.cmd "silent !tmux neww tmux-sessionizer"
+  else
+    vim.fn.jobstart({ "xdg-terminal-exec", "--", "tmux-sessionizer" }, { detach = true })
+  end
+end, { desc = "Open tmux sessionizer" })
+
 --long running sessions
 -- vim.keymap.set("n", "<M-l>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>")
 -- vim.keymap.set("n", "<M-o>", "<cmd>silent !tmux neww tmux-sessionizer -s 1<CR>")

@@ -75,6 +75,7 @@
   "nvim-web-devicons": { "branch": "master", "commit": "58447c1fca354bbf184425e4a8d01deecbd6f3c4" },
   "nvim-window-picker": { "branch": "main", "commit": "6382540b2ae5de6c793d4aa2e3fe6dbb518505ec" },
   "obsidian.nvim": { "branch": "main", "commit": "1212014bb22a1f44a655e8e706659892b8e43e59" },
+  "omarchy-theme.nvim": { "branch": "main", "commit": "64c68bbee71947c20022185c9ec946bb628d77b2" },
   "one-small-step-for-vimkind": { "branch": "main", "commit": "1af6ffb9b5229a856e8090fa2f690e0931a5aace" },
   "opencode.nvim": { "branch": "main", "commit": "06770e2e3618b82703e3e7af1f2d5dc67bde0002" },
   "otter.nvim": { "branch": "main", "commit": "0b38ccef44a805e8b378f5f6ce38aad0642c9366" },
@@ -104,6 +105,6 @@
   "vim-matchup": { "branch": "master", "commit": "0106b1afd4a2f7e1098037b5ceb161bab7471088" },
   "vim-python-pep8-indent": { "branch": "master", "commit": "60ba5e11a61618c0344e2db190210145083c91f8" },
   "which-key.nvim": { "branch": "main", "commit": "fcbf4eea17cb299c02557d576f0d568878e354a4" },
-  "yanky.nvim": { "branch": "main", "commit": "4b4ddd196526fd3d6fd091d931810f9743e936d3" },
+  "yanky.nvim": { "branch": "main", "commit": "b50e7b57b9a2296dc4393e024eb0b8235b41c641" },
   "yazi.nvim": { "branch": "main", "commit": "d8bd4cc258fdbe2bad71a383d390a96c80ecb628" }
 }

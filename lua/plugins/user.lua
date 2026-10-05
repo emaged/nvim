@@ -7,6 +7,11 @@
 return { -- == Examples of Adding Plugins ==
   -- customize dashboard options
   -- You can disable default plugins as follows:
+
+  {
+    "EskelinenAntti/omarchy-theme.nvim",
+  },
+
   {
     "max397574/better-escape.nvim",
     enabled = false,
