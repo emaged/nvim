@@ -1,24 +1,23 @@
-local theme_file = vim.fn.expand "~/.local/state/omarchy/current/theme/neovim.lua"
-local ok, theme_specs = pcall(dofile, theme_file)
+local omarchy = require "config.omarchy_theme"
+local theme = omarchy.read()
 
-if not ok or type(theme_specs) ~= "table" then return {} end
+if not theme then return {} end
 
-local colorscheme
-local specs = {}
+local specs = omarchy.specs(theme)
 
-for _, spec in ipairs(theme_specs) do
-  if type(spec) == "table" and spec[1] == "LazyVim/LazyVim" then
-    colorscheme = spec.opts and spec.opts.colorscheme
-  elseif type(spec) == "table" then
-    specs[#specs + 1] = spec
-  end
-end
-
-if colorscheme then
-  specs[#specs + 1] = {
-    "AstroNvim/astroui",
-    opts = function(_, opts) opts.colorscheme = colorscheme end,
-  }
-end
+specs[#specs + 1] = {
+  "AstroNvim/astroui",
+  opts = function(_, opts) opts.colorscheme = theme.colorscheme end,
+}
+specs[#specs + 1] = {
+  "AstroNvim/astrocore",
+  opts = {
+    autocmds = {
+      omarchy_native_theme = {
+        { event = "User", pattern = "VeryLazy", callback = omarchy.start },
+      },
+    },
+  },
+}
 
 return specs

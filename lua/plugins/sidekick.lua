@@ -28,7 +28,7 @@ return {
         },
       },
       tools = {
-        codex = { cmd = { "codex" } },
+        codex = { cmd = { "codex" }, native_scroll = true },
       },
     },
   },
