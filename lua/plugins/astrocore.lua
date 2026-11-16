@@ -55,6 +55,7 @@ return {
         exrc = true,
       },
       g = { -- vim.g.<key>
+        html_indent_script1 = "inc", -- Indent JavaScript one level inside <script>.
         -- configure global vim variables (vim.g)
         -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
         -- This can be found in the `lua/lazy_setup.lua` file

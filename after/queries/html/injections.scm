@@ -1,12 +1,5 @@
 ; extends
 
-;javascript
-(
-  (script_element
-    (raw_text) @injection.content) 
-  (#set! injection.language "javascript")
-)
-
 ; ; <script type="text/babel"> ... </script>
 ; (
 ;   (script_element

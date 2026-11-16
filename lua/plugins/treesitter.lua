@@ -26,8 +26,11 @@ return {
       -- can be:
       --   - a boolean
       --   - a function (`fun(lang: string, bufnr: integer): boolean`)
-      -- Native indenters handle empty nested C/C++ and JavaScript blocks more reliably.
-      indent = function(lang) return not vim.tbl_contains({ "python", "bash", "c", "cpp", "javascript" }, lang) end,
+      -- Native indenters handle incomplete code more reliably; retain Treesitter for JSX markup.
+      indent = function(lang, bufnr)
+        if lang == "javascript" then return vim.bo[bufnr].filetype == "javascriptreact" end
+        return not vim.tbl_contains({ "python", "bash", "c", "cpp", "java", "typescript", "html" }, lang)
+      end,
       -- List of treesitter parsers that should be installed automatically
       -- ("all" can be used to install all available parsers)
       ensure_installed = {
