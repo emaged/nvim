@@ -3,14 +3,27 @@ local M = {}
 -- Compatibility for nvim-html-css 3f246f6: inline-only styles are skipped and
 -- buffer:// sources are discarded. Preserve them with their HTML positions.
 local function update_inline_styles(bufnr)
-  local parser = vim.treesitter.get_parser(bufnr, "html")
+  -- JSX/TSX use CSS imports, which upstream already handles with their parser.
+  local filetype = vim.bo[bufnr].filetype
+  if vim.tbl_contains({ "javascript", "javascriptreact", "typescriptreact" }, filetype) then return end
+
+  local source, parser = bufnr, nil
+  if vim.treesitter.language.get_lang(filetype) == "html" then
+    parser = vim.treesitter.get_parser(bufnr, "html")
+  else
+    -- Parse templates separately without replacing their main buffer parser.
+    source = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
+    local ok
+    ok, parser = pcall(vim.treesitter.get_string_parser, source, "html")
+    if not ok then return end
+  end
   if not parser then return end
   local query = vim.treesitter.query.parse("html", "(style_element (raw_text) @css)")
   local data = { class = {}, id = {}, imports = {} }
   for _, tree in ipairs(parser:parse()) do
-    for _, node in query:iter_captures(tree:root(), bufnr) do
+    for _, node in query:iter_captures(tree:root(), source) do
       local row, col = node:range()
-      local css = require("html-css.parsers.css").setup(vim.treesitter.get_node_text(node, bufnr), true)
+      local css = require("html-css.parsers.css").setup(vim.treesitter.get_node_text(node, source), true)
       for _, kind in ipairs { "class", "id" } do
         for _, item in ipairs(css[kind]) do
           for _, position in pairs(item.range) do
@@ -25,8 +38,8 @@ local function update_inline_styles(bufnr)
 
   local cache = require "html-css.cache"
   local filename = vim.api.nvim_buf_get_name(bufnr)
-  local source = "buffer://" .. filename
-  cache:update(source, data)
+  local cache_source = "buffer://" .. filename
+  cache:update(cache_source, data)
   -- Cache keys remain buffer:// to avoid filesystem watchers; LSP definitions
   -- must point to the actual document, with positions adjusted above.
   for _, kind in ipairs { "class", "id" } do
@@ -35,7 +48,7 @@ local function update_inline_styles(bufnr)
     end
   end
   local sources = vim.tbl_keys((cache._buffers[bufnr] or {})._sources or {})
-  table.insert(sources, source)
+  table.insert(sources, cache_source)
   cache:link_sources(bufnr, sources)
 end
 

@@ -32,3 +32,21 @@ git clone https://github.com/<your_user>/<your_repository> ~/.config/nvim
 ```shell
 nvim
 ```
+
+## Java runtime
+
+The installed JDT LS 1.63 distribution includes Eclipse components requiring
+**Java 25 or newer**, even though its core manifest and launcher still declare
+Java 21. The runtime check therefore requires Java 25+.
+
+Set `JDTLS_JAVA_HOME` to explicitly choose the language server's JDK. An invalid
+or older override produces an actionable error. Otherwise, the configuration
+tries `JAVA_HOME`, `java` on `PATH`, and installed JDKs under `/usr/lib/jvm`, the
+standard mise Java directory, and macOS's `JavaVirtualMachines` directory,
+skipping runtimes older than Java 25. Windows uses `java.exe` and also searches
+Microsoft JDK installations under `Program Files`, including the Java 25 JDK
+installed by the Windows bootstrap. Nonstandard installations can use
+`JDTLS_JAVA_HOME`, `JAVA_HOME`, or `PATH`.
+
+The language server's runtime is independent of the project's target JDK, so
+your shell and projects can continue using an older Java version.
