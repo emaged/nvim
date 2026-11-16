@@ -12,7 +12,7 @@ return {
           shift_cr = {
             "<S-CR>",
             function(self)
-              if self:is_running() then vim.api.nvim_chan_send(self.job, "\x1b[13;2u") end
+              if self:is_running() then vim.api.nvim_chan_send(self.job, "\27[13;2u") end
             end,
             mode = "t",
             desc = "CSI-u Shift+Enter",
@@ -20,7 +20,7 @@ return {
           alt_cr = {
             "<A-CR>",
             function(self)
-              if self:is_running() then vim.api.nvim_chan_send(self.job, "\x1b[13;3u") end
+              if self:is_running() then vim.api.nvim_chan_send(self.job, "\27[13;3u") end
             end,
             mode = "t",
             desc = "CSI-u Alt+Enter",

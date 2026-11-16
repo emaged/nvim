@@ -2,17 +2,16 @@ return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
   opts = {},
-  -- lazy = true, -- disable for picker menu on startup
+  lazy = true, -- Load on the first require("harpoon") from a mapping.
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "folke/snacks.nvim", -- disable for faster startup, together with config function
+    "folke/snacks.nvim", -- Used by the Harpoon picker.
     -- "nvim-telescope/telescope.nvim", -- default setup
     { "AstroNvim/astroui", opts = { icons = { Harpoon = "󱡀" } } },
     {
       "AstroNvim/astrocore",
       opts = function(_, opts)
         local maps = opts.mappings
-        local term_string = vim.fn.exists "$TMUX" == 1 and "tmux" or "term"
         local prefix = "<Leader><Leader>"
 
         maps.n[prefix] = { desc = require("astroui").get_icon("Harpoon", 1, true) .. "Harpoon and swaps" }

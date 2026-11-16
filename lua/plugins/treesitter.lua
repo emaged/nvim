@@ -16,7 +16,7 @@ return {
       -- can be:
       --   - a boolean
       --   - a function (`fun(lang: string, bufnr: integer): boolean`)
-      enabled = function(lang, bufnr) return not require("astrocore.buffer").is_large(bufnr) end,
+      enabled = function(_, bufnr) return not require("astrocore.buffer").is_large(bufnr) end,
       -- Enable or disable treesitter based highlighting
       -- can be:
       --   - a boolean

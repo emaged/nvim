@@ -125,24 +125,22 @@ return { -- == Examples of Adding Plugins ==
       -- add django rules
       npairs.add_rules {
         Rule("%", "%", { "htmldjango", "django" })
-          :with_pair(function(opts)
+          :with_pair(function(rule_opts)
             -- Only double % when it follows {
-            return opts.line:sub(opts.col - 1, opts.col - 1) == "{"
+            return rule_opts.line:sub(rule_opts.col - 1, rule_opts.col - 1) == "{"
           end)
           :with_move(cond.none())
           :with_cr(cond.none())
           :with_del(cond.none()),
 
         Rule("#", "#", { "htmldjango", "django" })
-          :with_pair(function(opts) return opts.line:sub(opts.col - 1, opts.col - 1) == "{" end)
+          :with_pair(function(rule_opts) return rule_opts.line:sub(rule_opts.col - 1, rule_opts.col - 1) == "{" end)
           :with_move(cond.none())
           :with_cr(cond.none())
           :with_del(cond.none()),
       }
     end,
   },
-
-  { "nvim-tree/nvim-web-devicons", opts = {} },
 
   {
     "saghen/filler-begone.nvim",

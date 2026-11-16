@@ -32,7 +32,7 @@ return {
   { import = "astrocommunity.pack.tailwindcss" },
   -- { import = "astrocommunity.pack.typescript-all-in-one" },
 
-  { import = "astrocommunity.pack.python" },
+  { import = "astrocommunity.pack.python.base" },
   { import = "astrocommunity.pack.python.basedpyright" },
   { import = "astrocommunity.pack.python.ruff" },
 

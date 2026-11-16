@@ -56,7 +56,6 @@ return {
       djlsp = { capabilities = watched_files_capabilities() },
       lemminx = { capabilities = watched_files_capabilities() },
       neocmake = { capabilities = watched_files_capabilities() },
-      pyrefly = { capabilities = watched_files_capabilities() },
       ruff = { capabilities = watched_files_capabilities() },
       ["spring-boot"] = { capabilities = watched_files_capabilities() },
       -- Java is configured separately in nvim-jdtls.lua.
@@ -161,6 +160,10 @@ return {
       -- rust_analyzer = false, -- setting a handler to false will disable the set up of that language server
       emmet_ls = false,
       jinja_lsp = false,
+      -- Mason also discovers previously installed servers. Keep Python on
+      -- BasedPyright + Ruff even if these alternative servers are installed.
+      pyrefly = false,
+      ty = false,
     },
     -- Configure buffer local auto commands to add when attaching a language server
     autocmds = {
@@ -199,13 +202,13 @@ return {
           function() require("snacks.picker").lsp_definitions() end,
           -- function() vim.lsp.buf.definition() end,
           desc = "LSP Definitions",
-          cond = function(_, bufnr) return not (vim.b[bufnr].html_css_keymaps or {}).gd end,
+          cond = "textDocument/definition",
         },
 
         K = {
           function() vim.lsp.buf.hover() end,
           desc = "Hover symbol details",
-          cond = function(_, bufnr) return not (vim.b[bufnr].html_css_keymaps or {}).K end,
+          cond = "textDocument/hover",
         },
         ["<Leader>uY"] = {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,
@@ -216,11 +219,5 @@ return {
         },
       },
     },
-    -- A custom `on_attach` function to be run after the default `on_attach` function
-    -- takes two parameters `client` and `bufnr`  (`:h lsp-attach`)
-    on_attach = function(client, bufnr)
-      -- this would disable semanticTokensProvider for all clients
-      -- client.server_capabilities.semanticTokensProvider = nil
-    end,
   },
 }

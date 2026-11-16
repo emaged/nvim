@@ -19,7 +19,16 @@ end
 -- reparses the configuration. Retain identities, not a previous theme's options.
 local function identity(spec)
   if type(spec) == "string" then spec = { spec } end
-  local result = { spec[1], name = spec.name, dir = spec.dir, lazy = true }
+  local result = {
+    spec[1],
+    name = spec.name,
+    dir = spec.dir,
+    branch = spec.branch,
+    version = spec.version,
+    commit = spec.commit,
+    tag = spec.tag,
+    lazy = true,
+  }
   if spec.dependencies then
     result.dependencies = {}
     for _, dependency in ipairs(spec.dependencies) do
@@ -72,8 +81,8 @@ local aether_specs = {
   { "aether.nvim", optional = true, config = setup_aether },
 }
 
-function M.read()
-  local ok, specs = pcall(dofile, current .. "/theme/neovim.lua")
+function M.read(path)
+  local ok, specs = pcall(dofile, path or current .. "/theme/neovim.lua")
   if not ok then return nil, specs end
   if type(specs) ~= "table" then return nil, "neovim.lua must return a table" end
 
@@ -92,6 +101,14 @@ end
 -- Keep the options supplied by AstroCommunity/user specs separate from the
 -- current theme, so switching away also drops the previous theme's options.
 function M.specs(theme)
+  -- Declare the plugins used by the installed Omarchy themes ahead of time.
+  -- Only retain their identities: inactive themes must not apply options.
+  local paths = vim.fn.glob("/usr/share/omarchy/themes/*/neovim.lua", false, true)
+  paths[#paths + 1] = "/usr/share/omarchy/default/themed/neovim.lua.tpl"
+  for _, path in ipairs(paths) do
+    local available = M.read(path)
+    if available then remember(available.plugins) end
+  end
   remember(theme.plugins)
   local specs = vim.deepcopy(theme.plugins)
   for _, spec in ipairs(specs) do
@@ -165,11 +182,12 @@ local function apply(theme)
       loader.config(installed)
     end
   end
-  -- Match a fresh startup: generic schemes such as catppuccin-nvim otherwise
-  -- inherit "light" from the previous theme. Explicit light schemes set it again.
+  -- Reset the previous background. Catppuccin treats a repeated flavour with
+  -- a different background as a request to change flavour, so prime Latte's
+  -- background explicitly. Other light schemes set it themselves.
   local previous, background = vim.g.colors_name, vim.o.background
   vim.g.colors_name = nil
-  vim.o.background = "dark"
+  vim.o.background = theme.colorscheme == "catppuccin-latte" and "light" or "dark"
   -- Native themes use this to decide whether to clear the previous highlights.
   vim.g.colors_name = previous
   local ok, err = pcall(vim.cmd.colorscheme, theme.colorscheme)

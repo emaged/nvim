@@ -1,4 +1,3 @@
--- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 return {
   {
     "Jezda1337/nvim-html-css",
@@ -9,9 +8,8 @@ return {
       "jinja.html",
       "javascript",
       "javascriptreact",
-      "typescript",
       "typescriptreact",
-      "erb",
+      "eruby",
       "svelte",
       "vue",
       "blade",
@@ -19,14 +17,15 @@ return {
       "templ",
       "astro",
     },
-    dependencies = { "saghen/blink.cmp", "nvim-treesitter/nvim-treesitter" }, -- Use this if you're using blink.cmp
+    dependencies = { "saghen/blink.cmp", "nvim-treesitter/nvim-treesitter" },
     config = function(plugin, opts) require("config.html_css").setup(plugin, opts) end,
     opts = {
-      enable_on = { -- Example file types
+      enable_on = { -- Filename extensions, unlike Lazy's `ft` list above.
         "html",
+        "htm",
         "htmldjango",
-        "jinja.html",
         "jinja",
+        "j2",
         "js",
         "tsx",
         "jsx",
@@ -37,17 +36,6 @@ return {
         "php",
         "templ",
         "astro",
-      },
-      handlers = {
-        definition = {
-          bind = "gd",
-        },
-        hover = {
-          bind = "K",
-          wrap = true,
-          border = "rounded",
-          position = "cursor",
-        },
       },
       documentation = {
         auto_show = true,

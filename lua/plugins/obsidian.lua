@@ -81,9 +81,12 @@ return {
       picker = { name = "snacks.picker" },
       callbacks = {
         enter_note = function()
-          vim.keymap.set("n", "gf", function()
-            return require("obsidian.api").cursor_link() and "<Cmd>Obsidian follow_link<CR>" or "gf"
-          end, { buffer = true, expr = true, desc = "Follow note link or file" })
+          vim.keymap.set(
+            "n",
+            "gf",
+            function() return require("obsidian.api").cursor_link() and "<Cmd>Obsidian follow_link<CR>" or "gf" end,
+            { buffer = true, expr = true, desc = "Follow note link or file" }
+          )
         end,
       },
 
