@@ -17,8 +17,11 @@ return {
       -- sources = { ... },
       keymap = {
         preset = "default",
+        -- Cycle visible suggestions or jump snippets; otherwise use the indent mappings.
+        ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
         ["<CR>"] = false,
-        ["<C-space>"] = false,
+        ["<C-Space>"] = false,
         ["<A-space>"] = { "show", "show_documentation", "hide_documentation" },
       },
       completion = {

@@ -2,18 +2,34 @@
 -- Keymaps (run immediately)
 -- =========================
 
--- Reindent with Tab from any cursor position
+-- On blank lines, Tab aligns to the suggested indent or advances another tab stop.
+-- Elsewhere, use native Tab insertion so manual indentation is never reset.
 vim.keymap.set("i", "<Tab>", function()
   local line = vim.api.nvim_get_current_line()
+  if vim.bo.buftype ~= "" or not line:match "^%s*$" or vim.api.nvim_win_get_cursor(0)[2] < #line then return "\t" end
 
+  local indentkeys
   if vim.bo.indentexpr ~= "" then
-    if not vim.tbl_contains(vim.opt_local.indentkeys:get(), "!^F") then return "\t" end
-    if not line:match "^%s*$" then return "<C-f>" end
-    return "<C-f><C-r>=indent('.') == 0 ? nr2char(9) : ''<CR>"
+    indentkeys = vim.opt_local.indentkeys:get()
+  elseif vim.bo.cindent then
+    indentkeys = vim.opt_local.cinkeys:get()
   end
+  if not indentkeys or not vim.tbl_contains(indentkeys, "!^F") then return "\t" end
 
-  return "\t"
-end, { expr = true })
+  -- Let Neovim evaluate the indenter in its proper context and restore the cursor.
+  -- If it moves left or stays put, restore the old width before inserting a Tab.
+  local indent = vim.fn.indent "."
+  local keys = ("<C-f><C-r>=indent('.') > %d ? '' : repeat(' ', %d - indent('.')) . nr2char(9)<CR>"):format(
+    indent,
+    indent
+  )
+  -- Commit the indent as an explicit edit so Escape does not discard it.
+  -- Insert then delete one space, preserving both the cursor and the undo block.
+  return keys .. "<Space><C-g>U<Left><Del>"
+end, { expr = true, silent = true, desc = "Indent or insert Tab" })
+
+-- Unlike CTRL-D, this does not consume a preceding 0 or ^ as an indent command.
+vim.keymap.set("i", "<S-Tab>", "<C-o><<", { silent = true, desc = "Unindent line" })
 
 -- Restart neovim
 vim.keymap.set({ "v", "n" }, "<localleader>R", "<cmd>restart<CR>", { desc = "Restart Neovim" })
