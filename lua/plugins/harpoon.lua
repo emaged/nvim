@@ -1,6 +1,7 @@
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
+  opts = {},
   -- lazy = true, -- disable for picker menu on startup
   dependencies = {
     "nvim-lua/plenary.nvim",

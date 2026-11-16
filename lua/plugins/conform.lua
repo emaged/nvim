@@ -2,15 +2,9 @@ return {
   "stevearc/conform.nvim",
   opts = {
     formatters = {
-      -- Follow the buffer width selected by EditorConfig, including template paths.
+      -- Use the buffer width as a fallback; project configuration takes precedence.
       prettierd = {
-        append_args = function(_, ctx) return { "--tab-width=" .. ctx.shiftwidth } end,
-      },
-      djlint = {
-        prepend_args = function(_, ctx)
-          local width = tostring(ctx.shiftwidth)
-          return { "--indent", width, "--format-js", "--indent-js", width }
-        end,
+        append_args = function(_, ctx) return { "--tab-width=" .. ctx.shiftwidth, "--config-precedence=file-override" } end,
       },
     },
     formatters_by_ft = {

@@ -30,15 +30,6 @@ return { -- == Examples of Adding Plugins ==
     opts = {},
   },
 
-  {
-    "L3MON4D3/LuaSnip",
-    dependencies = { "rafamadriz/friendly-snippets" },
-    opts = function(_, opts)
-      require("luasnip.loaders.from_vscode").lazy_load()
-      return opts
-    end,
-  },
-
   -- Lorem ipsum generator
   {
     "derektata/lorem.nvim",

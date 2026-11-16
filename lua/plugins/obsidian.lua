@@ -95,18 +95,6 @@ return {
       daily_notes = {
         folder = "daily",
       },
-      frontmatter = { -- ai version
-        func = function(note)
-          local out = { id = note.id, aliases = note.aliases, tags = note.tags }
-          if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-            for k, v in pairs(note.metadata) do
-              out[k] = v
-            end
-          end
-          return out
-        end,
-      },
-
       -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
       -- URL it will be ignored but you can customize this behavior here.
       -- follow_url_func = vim.ui.open, -- deprecated

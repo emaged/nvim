@@ -107,11 +107,10 @@ return {
         settings = {
           ["harper-ls"] = {
             codeActions = {
-              forceStable = true,
+              ForceStable = true,
             },
             linters = {
-              spelled_numbers = true,
-              linking_verbs = true,
+              SpelledNumbers = true,
               SpellCheck = false,
             },
           },
