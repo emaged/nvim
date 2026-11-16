@@ -1,6 +1,7 @@
 return {
   "mfussenegger/nvim-jdtls",
   opts = function(_, opts)
+    opts.cmd[1] = "/usr/lib/jvm/java-25-openjdk/bin/java"
     -- JDT LS relies on client watchers for Java sources and Maven/Gradle metadata.
     opts.capabilities = vim.tbl_deep_extend("force", opts.capabilities or {}, {
       workspace = { didChangeWatchedFiles = { dynamicRegistration = true } },
