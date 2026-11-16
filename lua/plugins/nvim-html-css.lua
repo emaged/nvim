@@ -17,7 +17,11 @@ return {
       "templ",
       "astro",
     },
-    dependencies = { "saghen/blink.cmp", "nvim-treesitter/nvim-treesitter" },
+    dependencies = {
+      "saghen/blink.cmp",
+      "nvim-treesitter/nvim-treesitter",
+      "AstroNvim/astrolsp",
+    },
     config = function(plugin, opts) require("config.html_css").setup(plugin, opts) end,
     opts = {
       enable_on = { -- Filename extensions, unlike Lazy's `ft` list above.

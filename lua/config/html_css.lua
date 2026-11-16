@@ -27,13 +27,12 @@ function M.setup(plugin, opts)
   package.loaded["html-css"] = html_css
   html_css.setup(opts)
 
-  -- Use the plugin's native LSP completion, definitions and hover. Hyphens must
-  -- stay part of <cword> for CSS class names, without changing other buffers.
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePre" }, {
+  -- FileType replays undo ftplugin options, so reapply CSS word boundaries here.
+  vim.api.nvim_create_autocmd("FileType", {
     group = group,
-    pattern = patterns,
+    pattern = plugin.ft,
     callback = function(args)
-      if vim.bo[args.buf].buftype ~= "" or not vim.tbl_contains(plugin.ft, vim.bo[args.buf].filetype) then return end
+      if vim.bo[args.buf].buftype ~= "" then return end
       vim.api.nvim_buf_call(args.buf, function()
         if not vim.tbl_contains(vim.opt_local.iskeyword:get(), "-") then
           vim.opt_local.iskeyword:append "-"
@@ -41,6 +40,14 @@ function M.setup(plugin, opts)
           vim.b.undo_ftplugin = (undo and undo .. " | " or "") .. "setlocal iskeyword-=-"
         end
       end)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePre" }, {
+    group = group,
+    pattern = patterns,
+    callback = function(args)
+      if vim.bo[args.buf].buftype ~= "" or not vim.tbl_contains(plugin.ft, vim.bo[args.buf].filetype) then return end
       require("config.html_css_inline").update(args.buf)
     end,
   })
