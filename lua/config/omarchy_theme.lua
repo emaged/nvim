@@ -66,7 +66,11 @@ local function setup_aether(_, opts)
   require("aether").setup(opts)
 end
 
-local aether_spec = { "bjarneo/aether.nvim", optional = true, config = setup_aether }
+-- Match plugin names so current and legacy Omarchy specs keep their own source.
+local aether_specs = {
+  { "aether", optional = true, config = setup_aether },
+  { "aether.nvim", optional = true, config = setup_aether },
+}
 
 function M.read()
   local ok, specs = pcall(dofile, current .. "/theme/neovim.lua")
@@ -103,7 +107,7 @@ function M.specs(theme)
     name = "omarchy-session-themes",
     import = function() return vim.deepcopy(vim.tbl_values(retained)) end,
   })
-  specs[#specs + 1] = vim.deepcopy(aether_spec)
+  vim.list_extend(specs, vim.deepcopy(aether_specs))
   return specs
 end
 
@@ -112,7 +116,7 @@ local function apply(theme)
   local plugin = require "lazy.core.plugin"
   local loader = require "lazy.core.loader"
   -- Normalize names and dependencies using the installed lazy.nvim version.
-  local resolved = plugin.Spec.new({ theme.plugins, vim.deepcopy(aether_spec) }, { pkg = false })
+  local resolved = plugin.Spec.new({ theme.plugins, vim.deepcopy(aether_specs) }, { pkg = false })
   if #resolved.notifs > 0 then error(resolved.notifs[1].msg) end
 
   -- Check every dependency before changing the active colorscheme. Never install
@@ -136,7 +140,7 @@ local function apply(theme)
   remember(theme.plugins)
   if #added > 0 then
     -- Register actual spec fragments instead of inserting ad hoc plugin objects.
-    config.spec:parse(vim.deepcopy { theme.plugins, aether_spec })
+    config.spec:parse(vim.deepcopy { theme.plugins, aether_specs })
     config.plugins = config.spec.plugins
     plugin.update_state() -- also removes registered plugins from the cleanup list
     for _, key in ipairs(added) do
