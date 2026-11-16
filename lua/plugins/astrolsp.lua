@@ -5,6 +5,10 @@
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
 
+local function watched_files_capabilities()
+  return { workspace = { didChangeWatchedFiles = { dynamicRegistration = true } } }
+end
+
 ---@type LazySpec
 return {
   "AstroNvim/astrolsp",
@@ -46,15 +50,16 @@ return {
     -- customize language server configuration passed to `vim.lsp.config`
     -- client specific configuration can also go in `lsp/` in your configuration root (see `:h lsp-config`)
     config = {
-      ["*"] = {
-        capabilities = {
-          workspace = {
-            didChangeWatchedFiles = {
-              dynamicRegistration = true,
-            },
-          },
-        },
-      }, -- modify default LSP client settings such as capabilities
+      -- Neovim disables client file watchers by default on Linux. These servers
+      -- use them for external source/configuration changes without a native fallback.
+      basedpyright = { capabilities = watched_files_capabilities() },
+      djlsp = { capabilities = watched_files_capabilities() },
+      lemminx = { capabilities = watched_files_capabilities() },
+      neocmake = { capabilities = watched_files_capabilities() },
+      pyrefly = { capabilities = watched_files_capabilities() },
+      ruff = { capabilities = watched_files_capabilities() },
+      ["spring-boot"] = { capabilities = watched_files_capabilities() },
+      -- Java is configured separately in nvim-jdtls.lua.
 
       --  ──────────────────────────────────────────────────────────────
       --  Lua
@@ -98,6 +103,8 @@ return {
       --  Spellcheck
       --  ──────────────────────────────────────────────────────────────
       harper_ls = {
+        -- Harper uses watched-file deletions to clear cached documents/diagnostics.
+        capabilities = watched_files_capabilities(),
         filetypes = {
           "asciidoc",
           "html",
@@ -192,41 +199,13 @@ return {
           function() require("snacks.picker").lsp_definitions() end,
           -- function() vim.lsp.buf.definition() end,
           desc = "LSP Definitions",
-          cond = function(client, bufnr)
-            local ft = vim.bo[bufnr].filetype
-            return not vim.tbl_contains({
-              "html",
-              "htmldjango",
-              "javascript",
-              "javascriptreact",
-              "typescript",
-              "typescriptreact",
-              "svelte",
-              "vue",
-              "astro",
-              "templ",
-            }, ft)
-          end,
+          cond = function(_, bufnr) return not (vim.b[bufnr].html_css_keymaps or {}).gd end,
         },
 
         K = {
           function() vim.lsp.buf.hover() end,
           desc = "Hover symbol details",
-          cond = function(client, bufnr)
-            local ft = vim.bo[bufnr].filetype
-            return not vim.tbl_contains({
-              "html",
-              "htmldjango",
-              "javascript",
-              "javascriptreact",
-              "typescript",
-              "typescriptreact",
-              "svelte",
-              "vue",
-              "astro",
-              "templ",
-            }, ft)
-          end,
+          cond = function(_, bufnr) return not (vim.b[bufnr].html_css_keymaps or {}).K end,
         },
         ["<Leader>uY"] = {
           function() require("astrolsp.toggles").buffer_semantic_tokens() end,

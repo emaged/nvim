@@ -6,7 +6,7 @@ return {
       html = { "htmlhint" },
       htmldjango = { "djlint" },
       jinja = { "djlint" },
-      ["jinja-html"] = { "djlint" },
+      ["jinja.html"] = { "djlint" },
     },
     linters = {
       selene = {
