@@ -1,5 +1,29 @@
 local M = {}
 
+local function parse_html(bufnr)
+  local upstream = require "html-css.parsers.html"
+  local lang = vim.treesitter.language.get_lang(vim.bo[bufnr].filetype)
+  if lang == "html" or lang == "javascript" or lang == "tsx" then return upstream.setup(bufnr) end
+
+  -- Upstream forces an HTML buffer parser for templates, replacing their native
+  -- parser. Extract the same stylesheet data from a separate string parser.
+  local source = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
+  local parser = vim.treesitter.get_string_parser(source, "html")
+  local query = vim.treesitter.query.parse("html", upstream.html)
+  local data = { cdn = {}, raw_text = "" }
+  for _, tree in ipairs(parser:parse()) do
+    for id, node in query:iter_captures(tree:root(), source) do
+      local name = query.captures[id]
+      if name == "href_value" then
+        table.insert(data.cdn, vim.treesitter.get_node_text(node, source))
+      elseif name == "rw" then
+        data.raw_text = data.raw_text .. vim.treesitter.get_node_text(node, source)
+      end
+    end
+  end
+  return data
+end
+
 -- Compatibility for nvim-html-css 3f246f6: inline-only styles are skipped and
 -- buffer:// sources are discarded. Preserve them with their HTML positions.
 local function update_inline_styles(bufnr)
@@ -68,6 +92,10 @@ function M.setup(plugin, opts)
   setfenv(
     chunk,
     setmetatable({
+      require = function(name)
+        if name == "html-css.parsers.html" then return { setup = parse_html } end
+        return require(name)
+      end,
       -- Upstream calls dofile directly; require Neovim's project-file trust.
       dofile = function(path)
         local source = vim.secure.read(path)
